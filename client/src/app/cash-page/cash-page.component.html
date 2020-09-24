@@ -1,0 +1,44 @@
+<div *ngIf="!loading;else louder" class="container">
+  <form #form>
+    <mat-form-field>
+      <mat-label>Поиск...</mat-label>
+      <input matInput #contractInput placeholder="Договор..." appOnlyNumber>
+    </mat-form-field>
+    <button mat-icon-button color="primary" type="button" (click)="getAllPayments()">
+      <mat-icon>cached</mat-icon>
+    </button>
+  </form>
+  <div *ngIf="!loadingPay;else louderPay">
+    <div *ngIf="payments.length > 0;else empty">
+      <mat-nav-list *ngIf="!loadingPay;else louderPay">
+        <a *ngFor="let payment of payments" [routerLink]="payment._id" mat-list-item>
+          <div class="payment-wrap">
+            <div>
+              <span class="contract">Договор: {{payment.contract}}</span>
+              <span *ngIf="payment.nameTa">{{payment.nameTa}}</span>
+            </div>
+            <div class="status">
+              <div class="remark" *ngIf="payment.remark">Исправление</div>
+              <div class="correction" *ngIf="payment.correction">Исправлен</div>
+              <div class="approve" *ngIf="payment.approve"></div>
+              <div class="unapprove" *ngIf="!payment.approve"></div>
+            </div>
+          </div>
+        </a>
+      </mat-nav-list>
+      <ng-template #louderPay>
+        <app-louder-mini></app-louder-mini>
+      </ng-template>
+    </div>
+    <ng-template #empty>
+      <p>Счет не найден, попробуйте сново...</p>
+    </ng-template>
+  </div>
+  <ng-template #louderPay>
+    <app-louder-mini></app-louder-mini>
+  </ng-template>
+
+</div>
+<ng-template #louder>
+  <app-louder></app-louder>
+</ng-template>

@@ -1,0 +1,25 @@
+
+.component-wrapper{
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+.mat-card{
+  margin-top: 50px;
+}
+.mat-card-header{
+  display: flex;
+}
+.form-wrapper{
+  padding-right: 2rem;
+  padding-left: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+.mat-form-field input{
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.form-wrapper button{
+  padding: 0.3rem;
+}

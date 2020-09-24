@@ -1,0 +1,23 @@
+.container{
+  padding: 20px;
+}
+.form-wrapper{
+  display: flex;
+}
+.btn{
+  height: 40px;
+  margin-left: 20px;
+}
+.table-wrap{
+  width: 700px;
+  margin: 8px;
+}
+.input-price::-webkit-inner-spin-button{
+  display: none;
+}
+.input-price::-webkit-outer-spin-button{
+  display: none;
+}
+:host ::ng-deep .mat-form-field-wrapper{
+  padding: 0;
+}

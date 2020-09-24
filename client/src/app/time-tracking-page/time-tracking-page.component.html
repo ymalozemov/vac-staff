@@ -1,0 +1,65 @@
+<div *ngIf="!loading; else louder" class="wrapper">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Учет рабочего времени</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]='form' (ngSubmit)="onSubmit()">
+        <mat-form-field>
+          <mat-label>Выберите этап...</mat-label>
+          <mat-select formControlName='name'>
+            <mat-option *ngFor="let steps of stepsName" [value]="steps.value">
+              {{steps.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-icon-button color="primary" type="submit">
+          <mat-icon>add_circle_outline</mat-icon>
+        </button>
+      </form>
+      <table mat-table [dataSource]="steps" class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Название этапа </th>
+          <td mat-cell *matCellDef="let step; index as idx" [ngClass]="{deleted:step.deleted==true}">{{step.name}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="time">
+          <th mat-header-cell *matHeaderCellDef> Начало </th>
+          <td mat-cell *matCellDef="let step" [ngClass]="{deleted:step.deleted==true}"> {{step.time |date:"HH:mm:ss"}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="end">
+          <th mat-header-cell *matHeaderCellDef> Окончание </th>
+          <td mat-cell *matCellDef="let step" [ngClass]="{deleted:step.deleted==true}"> {{step.endTime|date:"HH:mm:ss"}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef> Общее время </th>
+          <td mat-cell *matCellDef="let step; index as idx">
+            <div *ngIf="getDate(step.endTime, step.time).h>0" class="total">
+              {{getDate(step.endTime, step.time).h+'ч. '+getDate(step.endTime, step.time).m+'мин. '+getDate(step.endTime, step.time).s+'cек.'}}
+            </div>
+            <div *ngIf="getDate(step.endTime, step.time).h==0 && getDate(step.endTime, step.time).m>0" class="total">
+              {{getDate(step.endTime, step.time).m+'мин. '+getDate(step.endTime, step.time).s+'cек.'}}
+            </div>
+            <div *ngIf="getDate(step.endTime, step.time).h==0 && getDate(step.endTime, step.time).m==0" class="total">
+              {{getDate(step.endTime, step.time).s+'cек.'}}
+            </div>
+            <div *ngIf="timeTracking.steps.length -1 == idx">
+              <button mat-icon-button color="primary" type="button" (click)="remove()" *ngIf="step.deleted == false">
+                <mat-icon>remove_circle_outline</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>
+<ng-template #louder>
+  <app-louder></app-louder>
+</ng-template>

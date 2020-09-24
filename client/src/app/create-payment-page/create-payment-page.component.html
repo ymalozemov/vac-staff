@@ -1,0 +1,416 @@
+<div *ngIf="!loading;else louder" class="container">
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-wrapper">
+      <div class="form-header">
+        <mat-card class="form-header-wrapper">
+          <div class="form-header-controls">
+            <mat-form-field appearance="outline">
+              <mat-label>Кол-во заявителей</mat-label>
+              <input appOnlyNumber formControlName="applicant" matInput placeholder="Кол-во заявителей..."
+                [errorStateMatcher]="matcher">
+            </mat-form-field>
+            <mat-form-field hintLabel="Кол-во символов" appearance="outline">
+              <mat-label>Номер договора</mat-label>
+              <input appOnlyNumber #inputValue formControlName="contract" matInput placeholder="Номер договора..."
+                [errorStateMatcher]="matcher">
+              <mat-hint align="end">{{inputValue.value.length}}/6</mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="form-header-button">
+            <button *ngIf="!payment" [disabled]="form.invalid" type="submit" mat-raised-button color="primary">Создать
+              счет</button>
+            <button *ngIf="payment && !payment.approve" [disabled]="form.invalid" type="submit" mat-raised-button
+              color="primary">Обновить
+              счет</button>
+          </div>
+        </mat-card>
+        <mat-card class="form-header-warning">
+          <mat-card-subtitle>
+            Предупреждения
+          </mat-card-subtitle>
+          <mat-card-content>
+            <span *ngIf="form.get('applicant').hasError('required')">
+              <span class="warn">
+                <mat-icon class="warning">error</mat-icon> Укажите кол-во заявителей.
+              </span>
+            </span>
+            <span *ngIf="form.get('contract').hasError('minlength') || form.get('contract').hasError('maxlength')">
+              <span class="warn">
+                <mat-icon class="warning">error</mat-icon> Номер договора введен некорректно.
+              </span>
+            </span>
+            <span *ngIf="form.get('contract').hasError('required')">
+              <span class="warn">
+                <mat-icon class="warning">error</mat-icon> Введите номер договора.
+              </span>
+            </span>
+            <span *ngIf="form.hasError('applicantBarcodes')">
+              <span class="warn">
+                <mat-icon class="warning">error</mat-icon> Кол-во заявителей должно совподать с кол-вом баркодов.
+              </span>
+            </span>
+            <span *ngIf="form.hasError('ppbFoxCount')">
+              <span class="warn">
+                <mat-icon class="warning">error</mat-icon> Кол-во Fox + Ppb больше кол-ва заявителей.
+              </span>
+            </span>
+            <span *ngIf="form.hasError('ppbCount') ">
+              <span class="warn">
+                <mat-icon class="warning">error</mat-icon> Кол-во Ppb больше кол-ва заявителей.
+              </span>
+            </span>
+            <span *ngIf="form.hasError('foxCount')">
+              <p class="warn">
+                <mat-icon class="warning">error</mat-icon> Кол-во Fox больше кол-ва заявителей.
+              </p>
+            </span>
+            <span *ngIf="form.hasError('persCount')">
+              <span class="warn">
+                <mat-icon class="warning">error</mat-icon> Кол-во Перс. больше кол-ва заявителей.
+              </span>
+            </span>
+            <span *ngIf="form.hasError('smsCount')">
+              <span class="warn">
+                <mat-icon class="warning">error</mat-icon> Кол-во SMS больше кол-ва заявителей.
+              </span>
+            </span>
+            <span *ngIf="form.hasError('vipCount')">
+              <span class="warn">
+                <mat-icon class="warning">error</mat-icon> Кол-во VIP больше кол-ва заявителей.
+              </span>
+            </span>
+            <span *ngIf="form.hasError('formCount')">
+              <span class="warn">
+                <mat-icon class="warning">error</mat-icon> Кол-во Анкет больше кол-ва заявителей.
+              </span>
+            </span>
+            <span *ngIf="form.hasError('photoCount')">
+              <span class="warn">
+                <mat-icon class="warning">error</mat-icon> Кол-во Фото больше кол-ва заявителей.
+              </span>
+            </span>
+            <span *ngIf="
+            (form.get('barcodesRus').hasError('required')) ||
+            (form.get('barcodesGratis').hasError('required')) ||
+            (form.get('barcodesFullGratis').hasError('required'))||
+            (form.get('barcodesNonRus').hasError('required'))
+            ">
+              <span class="warn">
+                <mat-icon class="warning">error</mat-icon> Вы не внесли номер(а) баркода(ов).
+              </span>
+            </span>
+            <span *ngIf="
+            (form.get('barcodesRus').hasError('minlength') || form.get('barcodesRus').hasError('maxlength'))||
+            (form.get('barcodesGratis').hasError('minlength') || form.get('barcodesGratis').hasError('maxlength'))||
+            (form.get('barcodesFullGratis').hasError('minlength') || form.get('barcodesFullGratis').hasError('maxlength'))||
+            (form.get('barcodesNonRus').hasError('minlength') || form.get('barcodesNonRus').hasError('maxlength'))
+            ">
+              <span class="warn">
+                <mat-icon class="warning">error</mat-icon> Номер(а) баркода(ов) введен(ы) некорректно.
+              </span>
+            </span>
+            <span *ngIf="form.get('copy').value == null || form.get('copy').value == 0">
+              <span class="ember">
+                <mat-icon class="warning">warning</mat-icon> Вы не добавили в счет копии.
+              </span>
+            </span>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="form-header-message" *ngIf="payment && payment.remark">
+          <mat-card-subtitle class="message-title">
+            Необходимо исправить
+          </mat-card-subtitle>
+          <mat-card-content>
+            <span class="warn">
+              <mat-icon class="warning">error</mat-icon> {{payment.message}}
+            </span>
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <mat-card class="form-barcodes">
+        <mat-card class="barcode-wrap">
+          <mat-card-subtitle>
+            <span>Rus</span>
+            <button mat-icon-button color="primary" type="button" (click)="addRus()">
+              <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" type="button" (click)="delRus()">
+              <mat-icon>remove_circle</mat-icon>
+            </button>
+          </mat-card-subtitle>
+          <mat-card-content formGroupName="barcodesRus">
+            <div *ngFor="let barcode of barcodesRus; index as idx">
+              <mat-form-field hintLabel="Кол-во символов" appearance="outline">
+                <mat-label>Barcode</mat-label>
+                <input matInput type="text" placeholder="Введите номер..." class="input-number" [formControlName]="idx"
+                  appOnlyNumber #inputValue [errorStateMatcher]="matcher">
+                <mat-hint align="end">{{inputValue.value.length}}/9</mat-hint>
+              </mat-form-field>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="barcode-wrap">
+          <mat-card-subtitle>
+            <span>Gratis</span>
+            <button mat-icon-button color="primary" type="button" (click)="addGratis()">
+              <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" type="button" (click)="delGratis()">
+              <mat-icon>remove_circle</mat-icon>
+            </button>
+          </mat-card-subtitle>
+          <mat-card-content formGroupName="barcodesGratis">
+            <div *ngFor="let barcode of barcodesGratis; index as idx">
+              <mat-form-field hintLabel="Кол-во символов" appearance="outline">
+                <mat-label>Barcode</mat-label>
+                <input matInput type="text" #inputValue placeholder="Введите номер..." class="input-number"
+                  [formControlName]="idx" appOnlyNumber [errorStateMatcher]="matcher">
+                <mat-hint align="end">{{inputValue.value.length}}/9</mat-hint>
+              </mat-form-field>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="barcode-wrap">
+          <mat-card-subtitle>
+            <span>FullGratis</span>
+            <button mat-icon-button color="primary" type="button" (click)="addFullGratis()">
+              <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" type="button" (click)="delFullGratis()">
+              <mat-icon>remove_circle</mat-icon>
+            </button>
+          </mat-card-subtitle>
+          <mat-card-content formGroupName="barcodesFullGratis">
+            <div *ngFor="let barcode of barcodesFullGratis; index as idx">
+              <mat-form-field hintLabel="Кол-во символов" appearance="outline">
+                <mat-label>Barcode</mat-label>
+                <input matInput type="text" #inputValue placeholder="Введите номер..." class="input-number"
+                  [formControlName]="idx" appOnlyNumber [errorStateMatcher]="matcher">
+                <mat-hint align="end">{{inputValue.value.length}}/9</mat-hint>
+              </mat-form-field>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="barcode-wrap">
+          <mat-card-subtitle>
+            <span>NonRus</span>
+            <button mat-icon-button color="primary" type="button" (click)="addNonRus()">
+              <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" type="button" (click)="delNonRus()">
+              <mat-icon>remove_circle</mat-icon>
+            </button>
+          </mat-card-subtitle>
+          <mat-card-content formGroupName="barcodesNonRus">
+            <div *ngFor="let barcode of barcodesNonRus; index as idx">
+              <mat-form-field hintLabel="Кол-во символов" appearance="outline">
+                <mat-label>Barcode</mat-label>
+                <input matInput type="text" #inputValue placeholder="Введите номер..." class="input-number"
+                  [formControlName]="idx" appOnlyNumber [errorStateMatcher]="matcher">
+                <mat-hint align="end">{{inputValue.value.length}}/9</mat-hint>
+              </mat-form-field>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-subtitle>
+            <mat-form-field class="mat-form-field-fox" appearance="outline">
+              <mat-label>Fox</mat-label>
+              <input matInput type="number" class="input-number-fox" formControlName="foxCount">
+            </mat-form-field>
+            <button mat-icon-button color="primary" type="button" (click)="addFox()">
+              <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" type="button" (click)="delFox()">
+              <mat-icon>remove_circle</mat-icon>
+            </button>
+          </mat-card-subtitle>
+          <mat-card-content>
+            <mat-form-field>
+              <mat-label>Fox-Zone...</mat-label>
+              <mat-select formControlName="foxValue" (selectionChange)="select($event)">
+                <mat-option [value]="null">Очистить</mat-option>
+                <mat-option *ngFor="let fox of foxes" [value]="fox.value">
+                  {{fox.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-card>
+      <div class="table-wrapper">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z1 ">
+          <ng-container matColumnDef="applicant">
+            <th mat-header-cell *matHeaderCellDef> Заяв. </th>
+            <td mat-cell *matCellDef="let element">{{element.applicant}}</td>
+            <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+          <ng-container matColumnDef="count" class="count-ap">
+            <th mat-header-cell *matHeaderCellDef> = </th>
+            <td mat-cell *matCellDef="let element"> {{element.count}} </td>
+            <td mat-footer-cell *matFooterCellDef>
+              <span [ngClass]="{warns:form.hasError('applicantBarcodes')}">
+                {{(form.get('applicant').value || 0)}}
+              </span>
+              <span *ngIf="!form.hasError('applicantBarcodes')"> = </span>
+              <span class="warns" *ngIf="form.hasError('applicantBarcodes')"> ≠ </span>
+              <span [ngClass]="{warns:form.hasError('applicantBarcodes')}">
+                {{(form.get('barcodesRus').value.length + form.get('barcodesGratis').value.length + form.get('barcodesFullGratis').value.length + form.get('barcodesNonRus').value.length)}}
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="fee">
+            <th mat-header-cell *matHeaderCellDef> Сбор </th>
+            <td mat-cell *matCellDef="let element"> {{element.cost * element.count}}</td>
+            <td mat-footer-cell *matFooterCellDef>
+              {{(form.get('barcodesRus').value.length * barcodesRusCost) + (form.get('barcodesGratis').value.length * barcodesGratisCost) + (form.get('barcodesFullGratis').value.length * barcodesFullGratisCost) + (form.get('barcodesNonRus').value.length * barcodesNonRusCost)}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="foxService" *ngIf="form.value.foxValue">
+            <th mat-header-cell *matHeaderCellDef> Сбор Fox ({{form.value.foxCount}}шт.)</th>
+            <td mat-cell *matCellDef="let element"></td>
+            <td mat-footer-cell *matFooterCellDef>
+              <span *ngFor="let foxService of price.foxServices">
+                <span *ngIf="foxService.value =='foxService'">
+                  {{foxService.cost * form.value.foxCount}}
+                </span>
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="foxCost" *ngIf="form.value.foxValue">
+            <th mat-header-cell *matHeaderCellDef>{{selectedIdxFox.name}} ({{form.value.foxCount}}шт.)</th>
+            <td mat-cell *matCellDef="let element"> </td>
+            <td mat-footer-cell *matFooterCellDef>{{selectedIdxFox.cost * form.value.foxCount}}</td>
+          </ng-container>
+          <ng-container matColumnDef="pers">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field class="input-number-wrapper" appearance="outline">
+                <mat-label>Перс</mat-label>
+                <input matInput type="number" class="input-number" formControlName="pers">
+              </mat-form-field>
+            </th>
+            <td mat-cell *matCellDef="let element"></td>
+            <td mat-footer-cell *matFooterCellDef> {{(form.get('pers').value || 0) * priceValue.pers}} </td>
+          </ng-container>
+          <ng-container matColumnDef="vip">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field class="input-number-wrapper" appearance="outline">
+                <mat-label> VIP </mat-label>
+                <input matInput type="number" class="input-number" formControlName="vip">
+              </mat-form-field>
+            </th>
+            <td mat-cell *matCellDef="let element"></td>
+            <td mat-footer-cell *matFooterCellDef>{{(form.get('vip').value || 0)* priceValue.vip}} </td>
+          </ng-container>
+          <ng-container matColumnDef="photo">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field class="input-number-wrapper" appearance="outline">
+                <mat-label> Фото </mat-label>
+                <input matInput type="number" class="input-number" formControlName="photo">
+              </mat-form-field>
+            </th>
+            <td mat-cell *matCellDef="let element"> </td>
+            <td mat-footer-cell *matFooterCellDef>{{(form.get('photo').value || 0)* priceValue.photo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="form">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field class="input-number-wrapper" appearance="outline">
+                <mat-label> Анк </mat-label>
+                <input matInput type="number" class="input-number" formControlName="form">
+              </mat-form-field>
+            </th>
+            <td mat-cell *matCellDef="let element"></td>
+            <td mat-footer-cell *matFooterCellDef>{{(form.get('form').value || 0)* priceValue.form}}</td>
+          </ng-container>
+          <ng-container matColumnDef="sms">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field class="input-number-wrapper" appearance="outline">
+                <mat-label> SMS </mat-label>
+                <input matInput type="number" class="input-number" formControlName="sms">
+              </mat-form-field>
+            </th>
+            <td mat-cell *matCellDef="let element"> </td>
+            <td mat-footer-cell *matFooterCellDef>{{(form.get('sms').value || 0)* priceValue.sms}}</td>
+          </ng-container>
+          <ng-container matColumnDef="copy">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field class="input-number-wrapper" appearance="outline">
+                <mat-label> Коп. </mat-label>
+                <input matInput type="number" class="input-number" formControlName="copy">
+              </mat-form-field>
+            </th>
+            <td mat-cell *matCellDef="let element"> </td>
+            <td mat-footer-cell *matFooterCellDef>
+              <span *ngIf="form.get('copy').value <= 10">{{(form.get('copy').value || 0)* priceValue.copy}}</span>
+              <span *ngIf="form.get('copy').value > 10">{{(form.get('copy').value || 0)* priceValue.copy10}}</span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="ppb">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field class="input-number-wrapper" appearance="outline">
+                <mat-label> PPB . </mat-label>
+                <input matInput type="number" class="input-number" formControlName="ppb">
+              </mat-form-field>
+            </th>
+            <td mat-cell *matCellDef="let element"> </td>
+            <td mat-footer-cell *matFooterCellDef>{{(form.get('ppb').value || 0) * priceValue.ppb}}</td>
+          </ng-container>
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef> Итого: </th>
+            <td mat-cell *matCellDef="let element"> </td>
+            <td mat-footer-cell *matFooterCellDef>
+              <span *ngIf="form.get('copy').value <= 10">
+                {{
+                  (
+                  (form.get('barcodesRus').value.length * barcodesRusCost) +
+                  (form.get('barcodesGratis').value.length * barcodesGratisCost)+
+                  (form.get('barcodesFullGratis').value.length * barcodesFullGratisCost)+
+                  (form.get('barcodesNonRus').value.length * barcodesNonRusCost)
+                  ) +
+                  ((form.get('ppb').value || 0) * priceValue.ppb) +
+                  ((form.get('form').value || 0) * priceValue.form) +
+                  ((form.get('photo').value || 0) * priceValue.photo) +
+                  ((form.get('sms').value || 0) * priceValue.sms) +
+                  ((form.get('vip').value || 0) * priceValue.vip) +
+                  ((form.get('pers').value || 0) * priceValue.pers) +
+                  ((form.get('copy').value || 0) * priceValue.copy) +
+                  ((form.get('foxCount').value || 0) * (priceValue[form.get('foxValue').value]|| 0))+
+                  getTotal()
+                }}
+              </span>
+              <span *ngIf="form.get('copy').value > 10">
+                {{
+                  (
+                  (form.get('barcodesRus').value.length * barcodesRusCost) +
+                  (form.get('barcodesGratis').value.length * barcodesGratisCost)+
+                  (form.get('barcodesFullGratis').value.length * barcodesFullGratisCost)+
+                  (form.get('barcodesNonRus').value.length * barcodesNonRusCost)
+                  ) +
+                  ((form.get('ppb').value || 0) * priceValue.ppb) +
+                  ((form.get('form').value || 0) * priceValue.form) +
+                  ((form.get('photo').value || 0) * priceValue.photo) +
+                  ((form.get('sms').value || 0) * priceValue.sms) +
+                  ((form.get('vip').value || 0) * priceValue.vip) +
+                  ((form.get('pers').value || 0) * priceValue.pers) +
+                  ((form.get('copy').value || 0) * priceValue.copy10)+
+                  ((form.get('foxCount').value || 0) * (priceValue[form.get('foxValue').value] || 0))+
+                  getTotal()
+                }}
+              </span>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+        </table>
+      </div>
+      <app-list-of-services [price]="price" [formValue]="form.value"></app-list-of-services>
+    </div>
+  </form>
+
+</div>
+<ng-template #louder>
+  <app-louder></app-louder>
+</ng-template>

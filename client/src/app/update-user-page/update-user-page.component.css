@@ -1,0 +1,16 @@
+.wrapper{
+  padding: 20px;
+}
+table {
+  width: 100%;
+}
+.trs:hover{
+  background-color:rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+
+.mat-form-field {
+  font-size: 16px;
+  width: 100%;
+}

@@ -1,0 +1,29 @@
+<div class="wrapper">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>VAC_Staff.com</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="sidenav-wrapper">
+    <mat-sidenav #sidenav>
+      <mat-action-list>
+        <button mat-list-item> Save </button>
+        <button mat-list-item> Undo </button>
+        <button mat-list-item> Undo </button>
+        <button mat-list-item> Undo </button>
+        <button mat-list-item> Undo </button>
+        <button mat-list-item> Undo </button>
+      </mat-action-list>
+      <mat-action-list class="last-item">
+        <button mat-list-item> Выйти </button>
+      </mat-action-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

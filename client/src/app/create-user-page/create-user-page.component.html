@@ -1,0 +1,34 @@
+<div class="wrapper">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Имя</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Логин</mat-label>
+      <input matInput formControlName="login">
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Пароль</mat-label>
+      <input matInput formControlName="password" [type]="hide ? 'password' : 'text'">
+      <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Пароль</mat-label>
+      <input matInput formControlName="subPassword" [type]="hideSub ? 'password' : 'text'">
+      <button mat-icon-button matSuffix (click)="hideSub = !hideSub" type="button">
+        <mat-icon>{{hideSub ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
+    <div>
+      <button [disabled]="form.invalid||form.disabled||form.value.password !== form.value.subPassword" type="submit"
+        mat-raised-button color="primary">Зарегистрировать</button>
+    </div>
+  </form>
+
+</div>

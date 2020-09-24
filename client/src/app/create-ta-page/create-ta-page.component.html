@@ -1,0 +1,22 @@
+<div class="wrapper">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Название Агенства</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Телефон</mat-label>
+      <input matInput formControlName="tel">
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+    </mat-form-field>
+    <div>
+      <button [disabled]="form.invalid || form.disabled" type="submit" mat-raised-button color="primary">Создать</button>
+    </div>
+  </form>
+
+</div>

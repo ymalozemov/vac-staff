@@ -1,0 +1,176 @@
+.container {
+  padding: 20px;
+}
+.warn {
+  color: #f44336;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.7rem;
+}
+.warns {
+  color: #f44336;
+}
+.warning {
+  padding-right: 0.5rem;
+}
+.ember {
+  color: #ffa000;
+  display: flex;
+  align-items: center;
+  padding-bottom: 0.5rem;
+}
+
+.container {
+  padding: 20px;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-header {
+  display: flex;
+  margin-bottom: 1.5rem;
+  align-items: flex-start;
+}
+.form-header-message {
+  margin-left: 1.5rem;
+}
+.message-title {
+  color: #f44336;
+}
+.form-header-wrapper {
+  display: flex;
+  margin-right: 1.5rem;
+}
+
+.form-header-controls {
+  display: flex;
+  flex-direction: column;
+  margin-right: 1.5rem;
+}
+.form-header-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 1.54375em;
+  padding-bottom: 1.54375em;
+  text-align: center;
+  max-width: 180px;
+}
+.fox-zone-wrapper {
+  max-width: 90%;
+}
+.input-number-fox::-webkit-inner-spin-button {
+  display: none;
+}
+.input-number-fox::-webkit-outer-spin-button {
+  display: none;
+}
+:host ::ng-deep .mat-form-field-fox .mat-form-field-wrapper {
+  padding: 0;
+  width: 50px;
+}
+:host
+  ::ng-deep
+  .mat-form-field-fox
+  .mat-form-field-wrapper
+  .mat-form-field-infix {
+  padding: 0.5em 0 0.5em 0;
+  border-top: 0.3em solid transparent;
+}
+.form-head-wrapp {
+  margin-bottom: 1rem;
+}
+
+.mat-form-field.header-count {
+  max-width: 70px;
+}
+.ref-num-wrapper {
+  display: flex;
+}
+.title-ref-wrap{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ref-num-container {
+  max-width: 400px;
+  margin-right: 1.5rem;
+}
+.ref-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.ref-num-pay {
+  margin-bottom: 1.5rem;
+}
+/* .mat-card-subtitle-ref{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+} */
+.name-ta {
+  width: 6rem;
+}
+
+:host ::ng-deep .input-number-wrapper .mat-form-field-wrapper {
+  padding: 0;
+  width: 50px;
+}
+tr.mat-row,
+tr.mat-footer-row {
+  height: 35px;
+}
+.table-wrapper {
+  max-width: 800px;
+  margin-bottom: 1.5rem;
+}
+.mat-column-count {
+  text-align: center;
+  padding-right: 10px;
+  white-space: nowrap;
+}
+th.mat-header-cell {
+  padding-right: 10px;
+  text-align: center;
+}
+th.mat-header-cell {
+  padding-right: 10px;
+  text-align: center;
+}
+.mat-cell {
+  text-align: center;
+}
+td.mat-column-applicant {
+  padding-right: 10px;
+}
+td.mat-column-fee {
+  padding-right: 10px;
+}
+td.mat-column-pers {
+  padding-right: 10px;
+}
+td.mat-column-vip {
+  padding-right: 10px;
+}
+td.mat-column-photo {
+  padding-right: 10px;
+}
+td.mat-column-form {
+  padding-right: 10px;
+}
+td.mat-column-sms {
+  padding-right: 10px;
+}
+td.mat-column-ppb {
+  padding-right: 10px;
+}
+.input-number::-webkit-inner-spin-button {
+  display: none;
+}
+.input-number::-webkit-outer-spin-button {
+  display: none;
+}

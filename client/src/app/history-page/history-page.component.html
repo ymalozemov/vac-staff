@@ -1,0 +1,30 @@
+<div *ngIf="!loading;else louder" class="container">
+  <mat-nav-list>
+    <a *ngFor="let payment of payments" mat-list-item (click)="click(payment)">
+      <div class="payment-wrap">
+        <div>
+          <span>Договор: {{payment.contract}}</span>
+          <span class="pers" *ngIf="payment.pers">Pers({{payment.pers}})</span>
+          <span class="vip" *ngIf="payment.vip">VIP({{payment.vip}})</span>
+          <span class="fox-zone"
+            *ngIf="payment.foxValue">{{payment.foxValue.toUpperCase()}}({{payment.foxCount}})</span>
+          <span class="ppb" *ngIf="payment.ppb">Ppb({{payment.ppb}})</span>
+          <span class="sms" *ngIf="payment.sms">SMS({{payment.sms}})</span>
+          <span class="form" *ngIf="payment.form">Анк.({{payment.form}})</span>
+          <span class="photo" *ngIf="payment.photo">Photo({{payment.photo}})</span>
+          <span class="copy" *ngIf="payment.copy">Copy({{payment.copy}})</span>
+        </div>
+
+        <div class="status">
+          <div class="remark" *ngIf="payment.remark">Исправление</div>
+          <div class="correction" *ngIf="payment.correction">Исправлен</div>
+          <div class="approve" *ngIf="payment.approve"></div>
+          <div class="unapprove" *ngIf="!payment.approve"></div>
+        </div>
+      </div>
+    </a>
+  </mat-nav-list>
+</div>
+<ng-template #louder>
+  <app-louder></app-louder>
+</ng-template>

@@ -1,0 +1,232 @@
+<div *ngIf="!loading;else louder" class="container">
+  <div class="payment-wrap">
+    <div class="btn-wrap">
+      <button [disabled]="payment.approve" mat-raised-button color="primary" type="button"
+        (click)="openDialog()">Отправить замечание</button>
+      <button *ngIf="!payment.approve" mat-raised-button color="primary" type="button"
+        (click)="approve()">Подтвердить</button>
+      <button *ngIf="!!payment.approve" mat-raised-button color="primary" type="button" (click)="unApprove()">Снять с
+        подтверждения</button>
+    </div>
+    <mat-card class="contract">
+      <mat-card-subtitle>
+        Номер Договора:
+      </mat-card-subtitle>
+      <mat-card-content class="barcode-list">
+        <span>{{payment.contract}}</span>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="name-ta" *ngIf="payment.nameTa">
+      <mat-card-subtitle>
+        Название Агенства:
+      </mat-card-subtitle>
+      <mat-card-content class="barcode-list">
+        <span>{{payment.nameTa}}</span>
+      </mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="barcodesRus.length > 0" class="barcodes-wrap">
+      <mat-card-content class="barcode-list">
+        Barcode Rus:
+        <mat-card>
+          <mat-card-content *ngFor="let barcode of barcodesRus">
+            RUS-{{barcode.value}}
+          </mat-card-content>
+        </mat-card>
+      </mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="barcodesGratis.length > 0" class="barcodes-wrap">
+      <mat-card-content class="barcode-list">
+        Barcode Gratis:
+        <mat-card>
+          <mat-card-content *ngFor="let barcode of barcodesGratis">
+            RUS-{{barcode.value}}
+          </mat-card-content>
+        </mat-card>
+      </mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="barcodesFullGratis.length > 0" class="barcodes-wrap">
+      <mat-card-content class="barcode-list">
+        Barcode FullGratis:
+        <mat-card>
+          <mat-card-content *ngFor="let barcode of barcodesFullGratis">
+            RUS-{{barcode.value}}
+          </mat-card-content>
+        </mat-card>
+
+      </mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="barcodesNonRus.length > 0" class="barcodes-wrap">
+      <mat-card-content class="barcode-list">
+        Barcode NonRus:
+        <mat-card>
+          <mat-card-content *ngFor="let barcode of barcodesNonRus">
+            RUS-{{barcode.value}}
+          </mat-card-content>
+        </mat-card>
+      </mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="payment.refNumbers" class="barcodes-wrap">
+      <mat-card-content class="barcode-list">
+        RefNumbers:
+        <mat-card class="ref-num-wrap">
+          <mat-card-content *ngFor="let refNumber of payment.refNumbers">
+            <span>RUS</span>
+            <span>/</span>
+            <span>{{refNumber.date|date:'ddMMyy'}}</span>
+            <span>/</span>
+            <span>{{refNumber.number}}</span>
+            <span>x</span>
+            <span>{{refNumber.count}}</span>
+          </mat-card-content>
+        </mat-card>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="fee" *ngIf="payment.barcodes">
+      <mat-card-content>
+        <span> Сборы: {{
+          (barcodesRus.length * (priceValue.rus + priceValue.service)) +
+          (barcodesNonRus.length * (priceValue.nonRus + priceValue.service)) +
+          (barcodesGratis.length * priceValue.service)
+        }} &#x20bd;</span>
+        <mat-card *ngIf="barcodesRus.length > 0">
+          <mat-card-content class="barcode-list">
+            <span>Конс. сбор Рус: ({{barcodesRus.length}} шт.) {{barcodesRus.length * priceValue.rus}} &#x20bd;</span>
+          </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="barcodesNonRus.length > 0">
+          <mat-card-content class="barcode-list">
+            <span>Конс. сбор NonRus: ({{barcodesNonRus.length }} шт.)
+              {{barcodesNonRus.length * priceValue.nonRus}} &#x20bd;</span>
+          </mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-content class="barcode-list">
+            <span>Серв. сбор: ({{barcodesRus.length + barcodesGratis.length + barcodesNonRus.length }} шт.)
+              {{(barcodesRus.length + barcodesGratis.length + barcodesNonRus.length) * priceValue.service}}
+              &#x20bd;</span>
+          </mat-card-content>
+        </mat-card>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="fee" *ngIf="payment.nameTa">
+      <mat-card-content>
+        <span> Сборы: {{
+          rusCount * priceValue.rus+
+          nonRusCount * priceValue.nonRus +
+          totalTaCount * priceValue.service
+        }} &#x20bd;</span>
+        <mat-card *ngIf="payment.rusCount">
+          <mat-card-content class="barcode-list">
+            <span>Конс. сбор Рус: ({{payment.rusCount}} шт.) {{payment.rusCount * priceValue.rus}} &#x20bd;</span>
+          </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="payment.nonRusCount">
+          <mat-card-content class="barcode-list">
+            <span>Конс. сбор NonRus: ({{payment.nonRusCount }} шт.)
+              {{payment.nonRusCount * priceValue.nonRus}} &#x20bd;</span>
+          </mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-content class="barcode-list">
+            <span>Серв. сбор: ({{totalTaCount}} шт.)
+              {{totalTaCount * priceValue.service}}
+              &#x20bd;</span>
+          </mat-card-content>
+        </mat-card>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="service">
+      <mat-card-content>
+        <span> Услуги: {{totalService}} &#x20bd;</span>
+        <mat-card *ngIf="payment.pers" class="pers">
+          <mat-card-content class="barcode-list">
+            <span>Перс: ({{payment.pers}} шт.)
+              {{payment.pers * priceValue.pers}} &#x20bd;</span>
+          </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="payment.vip" class="vip">
+          <mat-card-content class="barcode-list">
+            <span>VIP: ({{payment.vip}} шт.)
+              {{payment.vip * priceValue.vip}} &#x20bd;</span>
+          </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="payment.foxValue" class="fox-zone">
+          <mat-card-content class="barcode-list">
+            <span>Доставка {{foxName[payment.foxValue]}}: ({{payment.foxCount}} шт.)
+              {{payment.foxCount * priceValue[payment.foxValue]}} &#x20bd;</span>
+          </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="payment.foxValue" class="fox-service">
+          <mat-card-content class="barcode-list">
+            <span>Доставка Cбор: ({{payment.foxCount}} шт.)
+              {{payment.foxCount * priceValue.foxService}} &#x20bd;</span>
+          </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="payment.ppb" class="ppb">
+          <mat-card-content class="barcode-list">
+            <span>PPB: ({{payment.ppb}} шт.)
+              {{payment.ppb * priceValue.ppb}} &#x20bd;</span>
+          </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="payment.sms" class="sms">
+          <mat-card-content class="barcode-list">
+            <span>SMS: ({{payment.sms}} шт.)
+              {{payment.sms * priceValue.sms}} &#x20bd;</span>
+          </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="payment.form" class="form">
+          <mat-card-content class="barcode-list">
+            <span>Анкета: ({{payment.form}} шт.)
+              {{payment.form * priceValue.form}} &#x20bd;</span>
+          </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="payment.photo" class="photo">
+          <mat-card-content class="barcode-list">
+            <span>Фото: ({{payment.photo}} шт.)
+              {{payment.photo * priceValue.photo}} &#x20bd;</span>
+          </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="payment.copy > 10" class="copy10">
+          <mat-card-content class="barcode-list">
+            <span>Копии: ({{payment.copy}} шт.)
+              {{payment.copy * priceValue.copy10}} &#x20bd;</span>
+          </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="payment.copy <= 10" class="copy">
+          <mat-card-content class="barcode-list">
+            <span>Копии: ({{payment.copy}} шт.)
+              {{payment.copy * priceValue.copy}} &#x20bd;</span>
+          </mat-card-content>
+        </mat-card>
+
+
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="total-pay" *ngIf="payment.barcodes">
+      <mat-card-content>
+        Итого: {{
+          (barcodesRus.length * (priceValue.rus + priceValue.service)) +
+          (barcodesNonRus.length * (priceValue.nonRus + priceValue.service)) +
+          (barcodesGratis.length * priceValue.service) +
+          totalService
+        }} &#x20bd;
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="total-pay" *ngIf="payment.nameTa">
+      <mat-card-content>
+        Итого: {{
+          rusCount * priceValue.rus+
+          nonRusCount * priceValue.nonRus +
+          totalTaCount * priceValue.service +
+          totalService
+        }} &#x20bd;
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+
+</div>
+
+<ng-template #louder>
+  <app-louder></app-louder>
+</ng-template>

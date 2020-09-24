@@ -1,0 +1,23 @@
+
+.mat-table{
+  border-radius: 6px;
+}
+tr.mat-row, tr.mat-footer-row {
+  height: 35px;
+}
+th.mat-header-cell{
+  padding-right: 10px;
+  text-align: center;
+}
+.mat-cell{
+  text-align: center;
+}
+td.mat-column-name {
+  padding-right: 10px;
+}
+td.mat-column-cost {
+  padding-right: 10px;
+}
+td.mat-column-count {
+  padding-right: 10px;
+}

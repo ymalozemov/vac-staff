@@ -1,0 +1,35 @@
+.container {
+  position: absolute;
+  top: 64px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+:host ::ng-deep .mat-badge-content.mat-badge-active{
+  right: 2px !important;
+}
+.link-pre{
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+}
+.home-wrap{
+  display: flex;
+  align-items: center;
+}
+.mat-toolbar .mat-icon{
+  padding-right: .5rem;
+  padding-left: .5rem;
+}
+.bread-wrap{
+  display: flex;
+  align-items: center;
+}
+.last-item{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.active{
+  background-color:rgba(0, 0, 0, 0.05);
+}
+

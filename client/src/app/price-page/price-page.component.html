@@ -1,0 +1,49 @@
+<div *ngIf="!loading;else louder" class="container">
+  <form class="form-wrapper" [formGroup]="formService" (ngSubmit)="onSubmitService()">
+    <table mat-table [dataSource]="dataSourceService" class="mat-elevation-z8 table-wrap">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Название услуги </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cost">
+        <th mat-header-cell *matHeaderCellDef> Стоимость </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field appearance="outline">
+            <input matInput [value]="element.cost" type="number" class="input-price" [formControlName]="element.value">
+            <span matSuffix>&#x20bd;</span>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <button mat-raised-button color="primary" class="btn">Обновить</button>
+  </form>
+  <form class="form-wrapper" [formGroup]="formFox" (ngSubmit)="onSubmitFox()">
+    <table mat-table [dataSource]="dataSourceFox" class="mat-elevation-z8 table-wrap">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Название услуги </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cost">
+        <th mat-header-cell *matHeaderCellDef> Стоимость </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field appearance="outline">
+            <input matInput [value]="element.cost" type="number" class="input-price" [formControlName]="element.value">
+            <span matSuffix>&#x20bd;</span>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <button mat-raised-button color="primary" class="btn">Обновить</button>
+  </form>
+</div>
+<ng-template #louder>
+  <app-louder></app-louder>
+</ng-template>

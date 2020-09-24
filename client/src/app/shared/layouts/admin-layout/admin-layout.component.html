@@ -1,0 +1,39 @@
+<div class="wrapper">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <div class="home-wrap">
+        <mat-icon>home</mat-icon>
+        <span>VAC-Staff.com</span>
+      </div>
+      <div class="bread-wrap" *ngFor="let url of urlBread">
+        <mat-icon>arrow_right_alt</mat-icon>
+        <span><a [routerLink]='url.link' class="link-pre">{{url.name}}</a></span>
+      </div>
+      <div class="bread-wrap" *ngIf="userService.user.login">
+        <mat-icon>arrow_right_alt</mat-icon>
+        <span><a class="link-pre">Пользователь: {{userService.user.login}}</a></span>
+      </div>
+      <div class="bread-wrap" *ngIf="paymentService.payment.contract">
+        <mat-icon>arrow_right_alt</mat-icon>
+        <span><a class="link-pre">Договор: {{paymentService.payment.contract}}</a></span>
+      </div>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-sidenav-container class="container">
+    <mat-sidenav mode="side" opened>
+      <mat-nav-list>
+        <a mat-list-item *ngFor="let url of urls" [routerLink]="url.url" routerLinkActive="active" matBadge="1"
+          matBadgeOverlap="true" [matBadgeHidden]="!url.badge" (click)="clearBadge($event)"
+          >
+          {{url.name}}
+        </a>
+      </mat-nav-list>
+      <mat-action-list class="last-item">
+        <button mat-list-item (click)="logout()"> Выйти </button>
+      </mat-action-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

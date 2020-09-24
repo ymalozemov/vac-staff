@@ -1,0 +1,83 @@
+.container {
+  padding: 20px;
+}
+.payment-wrap {
+  max-width: 500px;
+}
+.contract {
+  background-color: #e1bee7;
+}
+.btn-wrap button {
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+.name-ta {
+  background-color: #fce4ec;
+}
+.barcodes-wrap {
+  background-color: #d7ccc8;
+}
+.ref-num-wrap {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 3px;
+}
+.ref-num-wrap span {
+  padding-right: 2px;
+}
+.barcode-list {
+  display: flex;
+  flex-direction: column;
+}
+.mat-card {
+  padding: 3px;
+  margin-bottom: 3px;
+}
+.mat-card-subtitle {
+  margin-bottom: 3px;
+}
+.mat-card-content{
+  margin-bottom: 3px;
+}
+.total {
+  color: rgba(0, 0, 0, 0.87);
+}
+.fee {
+  background-color: #90caf9;
+}
+.service {
+  background-color: #c5e1a5;
+}
+.total-pay {
+  background-color: #ffe082;
+}
+/* .pers {
+  background-color: #ce93d8;
+}
+.vip {
+  background-color: #ff1744;
+}
+.fox-zone {
+  background-color: #ffe082;
+}
+.fox-service {
+  background-color: #efebe9;
+}
+.ppb {
+  background-color: #bcaaa4;
+}
+.sms {
+  background-color: #ffab91;
+}
+.form {
+  background-color: #f48fb1;
+}
+.photo {
+  background-color: #80cbc4;
+}
+.copy10 {
+  background-color: #00e676;
+}
+.copy {
+  background-color: #00e676;
+} */

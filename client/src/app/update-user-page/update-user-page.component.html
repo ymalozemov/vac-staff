@@ -1,0 +1,36 @@
+<div *ngIf="!loading;else louder" class="wrapper">
+  <mat-form-field>
+    <mat-label>Найти пользователя</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Введите информацию о пользователе...">
+  </mat-form-field>
+
+  <table  mat-table [dataSource]="dataSource" class="mat-elevation-z8" (click)="openUser($event)">
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef class="position"> No. </th>
+      <td  mat-cell *matCellDef="let element; index as idx" [attr.id]="element._id">{{idx+1}}</td>
+    </ng-container>
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef class="name"> Name </th>
+      <td mat-cell *matCellDef="let element" [attr.id]="element._id"> {{element.name}} </td>
+    </ng-container>
+    <!-- Weight Column -->
+    <ng-container matColumnDef="login">
+      <th mat-header-cell *matHeaderCellDef class="login"> Login </th>
+      <td mat-cell *matCellDef="let element" [attr.id]="element._id"> {{element.login}} </td>
+    </ng-container>
+    <ng-container matColumnDef="role">
+      <th mat-header-cell *matHeaderCellDef class="role"> Роль </th>
+      <td mat-cell *matCellDef="let element" [attr.id]="element._id"> {{element.role}} </td>
+    </ng-container>
+    <!-- Symbol Column -->
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr class="trs" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+</div>
+<ng-template #louder>
+  <app-louder></app-louder>
+</ng-template>

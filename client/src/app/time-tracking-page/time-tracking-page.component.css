@@ -1,0 +1,27 @@
+.wrapper{
+  padding: 20px;
+}
+.deleted{
+  text-decoration: line-through;
+}
+td{
+  padding: .5rem;
+}
+th{
+  width: 100px;
+}
+.mat-header-cell{
+  text-align: center;
+}
+.mat-cell{
+  text-align: center;
+}
+th:first-child{
+  width: 150px;
+}
+th:last-child{
+  width: 120px;
+}
+.mat-footer-cell{
+  text-align: center;
+}

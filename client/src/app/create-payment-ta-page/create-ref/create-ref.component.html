@@ -1,0 +1,55 @@
+<div *ngIf="!loading;else louder">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
+    <h1 mat-dialog-title>Создать Ref номер</h1>
+    <div mat-dialog-content>
+      <mat-form-field appearance="outline" class="select-wrapper">
+        <mat-label>Выберите турагенство...</mat-label>
+        <mat-select formControlName="nameTa" [errorStateMatcher]="matcher">
+          <mat-option [value]="null">Очистить</mat-option>
+          <mat-option *ngFor="let ta of travelAgents" [value]="ta.name.split(' ').join('').trim()">
+            {{ta.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-card class="ref-num-wrapper mat-elevation-z3">
+        <div>
+          RUS
+        </div>
+        <div>
+          /
+        </div>
+        <div>
+          {{date|date:'ddMMyy'}}
+        </div>
+        <div>
+          /
+        </div>
+        <div>
+          <mat-form-field class="mat-input-ref" appearance="outline">
+            <mat-label>Номер</mat-label>
+            <input matInput placeholder="Номер..." formControlName="number" id="number" appOnlyNumber
+              (input)="input($event)" [errorStateMatcher]="matcher">
+          </mat-form-field>
+        </div>
+        <div>
+          ×
+        </div>
+        <div>
+          <mat-form-field class="mat-input-ref mat-input-ref-count" appearance="outline">
+            <mat-label>Кол-во</mat-label>
+            <input matInput placeholder="Кол-во..." formControlName="count" id="count" appOnlyNumber
+              (input)="input($event)" [errorStateMatcher]="matcher">
+          </mat-form-field>
+        </div>
+      </mat-card>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()" type="button">Закрыть</button>
+      <button mat-button type="submit" [disabled]="form.invalid">Создать</button>
+    </div>
+  </form>
+</div>
+
+<ng-template #louder>
+  <app-louder></app-louder>
+</ng-template>
